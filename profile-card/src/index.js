@@ -1,6 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
+import React from "react"
+import ReactDOM from "react-dom/client"
+import "./index.css"
 
 function App() {
   return (
@@ -11,11 +11,11 @@ function App() {
         <SkillSet />
       </div>
     </div>
-  );
+  )
 }
 
 function Avatar() {
-  return <img src="download.jpg" alt="User pic" className="avatar" />;
+  return <img src="download.jpg" alt="User pic" className="avatar" />
 }
 
 function Intro() {
@@ -28,7 +28,7 @@ function Intro() {
         just enjoy the Portuguese sun at the beach.
       </p>
     </div>
-  );
+  )
 }
 
 function Skill(props) {
@@ -37,7 +37,7 @@ function Skill(props) {
       <span>{props.name}</span>
       <span>{props.emoji}</span>
     </div>
-  );
+  )
 }
 
 function SkillSet() {
@@ -49,12 +49,12 @@ function SkillSet() {
       <Skill name={"React"} emoji={"💪"} colour={"orange"} />
       <Skill name={"Svelte"} emoji={"👶"} colour={"grey"} />
     </div>
-  );
+  )
 }
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-);
+)
