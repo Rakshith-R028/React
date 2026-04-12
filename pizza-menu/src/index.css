@@ -98,6 +98,10 @@ body {
   width: 80%;
 }
 
+.working-menu {
+  background-color: orangered;
+}
+
 .pizzas {
   list-style: none;
   display: grid;
@@ -153,6 +157,12 @@ body {
 
 .footer {
   font-size: 1.4rem;
+}
+
+.footer > .closed {
+  background-color: #edc84b;
+  color: white;
+  padding: 5px;
 }
 
 .order {
