@@ -15,9 +15,7 @@ function App() {
 }
 
 function Avatar() {
-  return (
-    <img src="download.jpg" alt="User profile picture" className="avatar" />
-  );
+  return <img src="download.jpg" alt="User pic" className="avatar" />;
 }
 
 function Intro() {
