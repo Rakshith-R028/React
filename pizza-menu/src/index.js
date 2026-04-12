@@ -71,11 +71,17 @@ function Menu() {
     <main className="menu">
       <h2>Our Menu</h2>
       {numOfPizza > 0 ? (
-        <ul className="pizzas">
-          {pizzaData?.map((pizza) => {
-            return <Pizza pizzaObj={pizza} key={pizza.name} />
-          })}
-        </ul>
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious
+          </p>
+          <ul className="pizzas">
+            {pizzaData?.map((pizza) => {
+              return <Pizza pizzaObj={pizza} key={pizza.name} />
+            })}
+          </ul>
+        </>
       ) : (
         <p className="working-menu">
           We're working on our menu. Please come back later
@@ -85,15 +91,16 @@ function Menu() {
   )
 }
 
-function Pizza(props) {
-  if (props.pizzaObj.soldOut) return null
+function Pizza({ pizzaObj }) {
   return (
-    <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.pizzaName}></img>
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      <img src={pizzaObj.photoName} alt={pizzaObj.pizzaName}></img>
       <div>
-        <h3>{props.pizzaObj.pizzaName}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price}</span>
+        <h3>{pizzaObj.pizzaName}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>
+          {pizzaObj.soldOut ? "sold out".toUpperCase() : pizzaObj.price}
+        </span>
       </div>
     </li>
   )
@@ -107,7 +114,7 @@ function Footer() {
   return (
     <footer className="footer">
       {isOpen ? (
-        <Order closedHour={closedHour} />
+        <Order closedHour={closedHour} openHour={openHour} />
       ) : (
         <p className="closed">
           Happy to see you between {openHour}:00 - {closedHour}:00
@@ -117,11 +124,12 @@ function Footer() {
   )
 }
 
-function Order(props) {
+function Order({ closedHour, openHour }) {
   return (
     <div className="order">
       <p>
-        We're open until {props.closedHour}:00. Come visit us or Order online
+        We're open from {openHour}:00 to {closedHour}:00. Come visit us or Order
+        online
       </p>
       <button className="btn">Order</button>
     </div>
