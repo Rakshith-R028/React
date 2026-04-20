@@ -1,18 +1,11 @@
 import { useState } from "react"
 import "./app.css"
 function App() {
-  const [step, setStep] = useState<number>(1)
-  const [counter, setCounter] = useState<number>(0)
+  const [step, setStep] = useState(1)
+  const [counter, setCounter] = useState(0)
   const date = new Date()
   const counterDate = new Date(date)
   counterDate.setDate(counterDate.getDate() + counter)
-
-  const handleReduceStep = () => {
-    setStep((curStep) => curStep - 1)
-  }
-  const handleIncreaseStep = () => {
-    setStep((curStep) => curStep + 1)
-  }
 
   const handleIncreaseCounter = () => {
     setCounter((curStep) => curStep + step)
@@ -28,20 +21,37 @@ function App() {
       return "days ago was"
     }
   }
+
+  const onClickReset = () => {
+    setStep(1)
+    setCounter(0)
+  }
   return (
     <>
       <div className="step">
-        <button onClick={handleReduceStep}>-</button>
-        <h4>Step:{step}</h4>
-        <button onClick={handleIncreaseStep}>+</button>
+        <input
+          type="range"
+          min={1}
+          max={10}
+          value={step}
+          onChange={(e) => setStep(Number(e.target.value))}
+        />
+        <span>Step: {step}</span>
       </div>
       <div className="counter">
         <button onClick={handleReduceCounter}>-</button>
-        <h4>Counter:{counter}</h4>
+        <input
+          type="number"
+          value={counter}
+          onChange={(e) => setCounter(Number(e.target.value))}
+        />
         <button onClick={handleIncreaseCounter}>+</button>
       </div>
       <div className="date">
         {counter} {getDayString()} {counterDate.toDateString()}
+      </div>
+      <div>
+        <button onClick={onClickReset}>Reset</button>
       </div>
     </>
   )
