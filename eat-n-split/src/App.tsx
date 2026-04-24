@@ -17,8 +17,31 @@ const initialFriends = [
     image: "https://i.pravatar.cc/48?u=499476",
     balance: 0,
   },
-];
+]
 
-export default function App () {
-  return <h1>Hello Word</h1>
+export default function App() {
+  return (
+    <>
+      <SelectFriends />
+    </>
+  )
+}
+
+function SelectFriends() {
+  return (
+    <div className="sidebar">
+      {initialFriends.map((friend) => (
+        <ul>
+          <li>
+            <img src={friend.image} alt="Friend Pic" />
+            <h2>{friend.name}</h2>
+            <p>
+              You Owe {friend.name} ${friend.balance}
+            </p>
+            <button>Select</button>
+          </li>
+        </ul>
+      ))}
+    </div>
+  )
 }
