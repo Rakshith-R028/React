@@ -1,33 +1,48 @@
+import { createSlice } from "@reduxjs/toolkit"
+
 const initialState = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
 }
 
-export default function accountReducer(state = initialState, action) {
-  switch (action.type) {
-    case "account/deposit":
-      return { ...state, balance: state.balance + action.payload }
-    case "account/withdraw":
-      return { ...state, balance: state.balance - action.payload }
-    case "account/loan":
-      return {
-        ...state,
-        loan: action.payload.amount,
-        loanPurpose: action.payload.purpose,
-        balance: state.balance + action.payload.amount,
-      }
-    case "account/payLoan":
-      return { ...state, loan: 0, loanPurpose: "" }
-    default:
-      return state
-  }
-}
+const accountSlice = createSlice({
+  name: "account",
+  initialState,
+  reducers: {
+    amountDeposit(state, action) {
+      state.balance += action.payload
+    },
+    amountWithdraw(state, action) {
+      state.balance -= action.payload
+    },
+    requestLoan: {
+      prepare(amount, purpose) {
+        return {
+          payload: { amount, purpose },
+        }
+      },
+
+      reducer(state, action) {
+        state.loan = action.payload.amount
+        state.loanPurpose = action.payload.purpose
+        state.balance += action.payload.amount
+      },
+    },
+    payLoan(state, action) {
+      state.balance -= state.loan
+      state.loan = 0
+      state.loanPurpose = ""
+    },
+  },
+})
+
+export const { amountWithdraw, requestLoan, payLoan } = accountSlice.actions
 
 export function amountDeposit(amount, currency) {
   if (currency === "USD")
     return {
-      type: "account/deposit",
+      type: "account/amountDeposit",
       payload: amount,
     }
 
@@ -37,30 +52,11 @@ export function amountDeposit(amount, currency) {
     )
     const data = await res.json()
     const converted = (amount * data.rates["USD"]).toFixed(2)
-    console.log(converted)
-    dispatch({ type: "account/deposit", payload: converted })
+    dispatch({
+      type: "account/amountDeposit",
+      payload: amount + Number(converted),
+    })
   }
 }
 
-export function amountWithdraw(amount) {
-  return {
-    type: "account/withdraw",
-    payload: amount,
-  }
-}
-
-export function requestLoan(amount, purpose) {
-  return {
-    type: "account/loan",
-    payload: {
-      amount,
-      purpose,
-    },
-  }
-}
-
-export function payLoan() {
-  return {
-    type: "account/payLoan",
-  }
-}
+export default accountSlice.reducer
